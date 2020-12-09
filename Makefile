@@ -12,7 +12,7 @@ include config.mk
 # Build all of the executable files
 all:
 	$(MAKE) -C src
-	$(MAKE) -C examples
+#	$(MAKE) -C examples
 
 # Build the help files (with Doxygen)
 help:
@@ -21,7 +21,7 @@ help:
 # Clean up the executable files
 clean:
 	$(MAKE) -C src clean
-	$(MAKE) -C examples clean
+#	$(MAKE) -C examples clean
 
 # Install the executable, man page, and shared library
 install:
@@ -55,7 +55,7 @@ install:
 uninstall:
 	#rm -f $(PREFIX)/bin/voro++
 	#rm -f $(PREFIX)/man/man1/voro++.1
-	rm -f $(PREFIX)/lib/libvoro++.a
+	rm -f $(PREFIX)/lib/libvoro++.so
 	rm -f $(PREFIX)/include/voro++/voro++.hh
 	rm -f $(PREFIX)/include/voro++/c_loops.hh
 	rm -f $(PREFIX)/include/voro++/cell.hh
