@@ -42,8 +42,12 @@ target_include_directories(voro++ PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/s
 
 
 IF(TEST)
-  file(GLOB EXAMPLES LIST_DIRECTORIES true test/*)
-  foreach(X ${EXAMPLES} )
-  message(${X})
-  endforeach()
+  find_package(ZLIB REQUIRED)
+  # file(GLOB EXAMPLES LIST_DIRECTORIES true test/*)
+  file(GLOB test test/*.cpp)
+  add_executable(qw46 ${test})
+  include_directories(test/)
+  target_link_libraries(qw46 PUBLIC voro++ ${ZLIB_LIBRARIES})
+  enable_testing()
+  add_test(NAME qw46 COMMAND qw46 ${CMAKE_CURRENT_SOURCE_DIR}/test/fcc.xyz)
 endif(TEST)
