@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(voro++ C CXX)
+project(voro++ VERSION 0.4.6 LANGUAGES CXX)
+set(SOVERSION "0")
 
 option(BUILD_VORO_EXECUTABLE "build voro executable" OFF)
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
 option(TEST "test example" OFF)
-
+include(GNUInstallDirs)
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CXX_FLAGS)
   #release comes with -O3 by default
@@ -31,11 +32,10 @@ IF(BUILD_VORO_EXECUTABLE)
 endif(BUILD_VORO_EXECUTABLE)
 
 
-# add_library(voro_lib STATIC ${LIB_VORO_SRC})
-# target_include_directories(voro_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_library(voro++ ${LIB_VORO_SRC})
 set_target_properties(voro++ PROPERTIES 
-  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/src")
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/src"
+  SOVERSION ${SOVERSION})
 install(TARGETS voro++ EXPORT VORO_Targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 #for voto++.hh
 target_include_directories(voro++ PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
@@ -51,3 +51,10 @@ IF(TEST)
   enable_testing()
   add_test(NAME qw46 COMMAND qw46 ${CMAKE_CURRENT_SOURCE_DIR}/test/fcc.xyz)
 endif(TEST)
+
+file(GLOB_RECURSE VORO_HEADERS src/voro++.hh)
+install(FILES ${VORO_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}) 
+install(EXPORT VORO_Targets FILE VOROConfig.cmake NAMESPACE VORO:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/VORO)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file("VOROConfigVersion.cmake" VERSION ${PROJECT_VERSION} COMPATIBILITY ExactVersion)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/VOROConfigVersion.cmake" DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/VORO)
