@@ -52,7 +52,7 @@ IF(TEST)
   add_test(NAME qw46 COMMAND qw46 ${CMAKE_CURRENT_SOURCE_DIR}/test/fcc.xyz)
 endif(TEST)
 
-file(GLOB_RECURSE VORO_HEADERS src/voro++.hh)
+file(GLOB_RECURSE VORO_HEADERS src/*.hh)
 install(FILES ${VORO_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}) 
 install(EXPORT VORO_Targets FILE VOROConfig.cmake NAMESPACE VORO:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/VORO)
 include(CMakePackageConfigHelpers)
